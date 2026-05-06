@@ -183,8 +183,14 @@ def equation_2(fin_data):
     L = fin_data["L"]
     th_b = fin_data["T_b"] - fin_data["T_inf"]
 
-    # working on this rn 
-    return 0
+    M = th_b * np.sqrt(h * P * k * Ac)
+    m = np.sqrt(h * P / (k * Ac))
+
+    numerator = np.sinh(m * L) + (h / (m * k)) * np.cosh(m * L)
+    denominator = np.cosh(m * L) + (h / (m * k)) * np.sinh(m * L)
+    return M * numerator / denominator
+
+
 
 data = compile_data()
 data["copperround"]["readings"]=data["copperround"]["readings"][:-2] # copper round has only 4 measurement points
@@ -199,4 +205,11 @@ for fin in data:
     data[fin]["h"] = h
     print(f"Best h for {fin}: {h}")
 
-plot_all_data(data)
+#plot_all_data(data)
+
+for fin in data:
+    fin_data = data[fin]
+    q_f = equation_2(fin_data)
+    data[fin]["q_f"] = q_f
+    print(f"Calculated heat transfer rate for {fin}: {q_f:.4f} W")
+    print(f"Given power input for {fin}: {fin_data['power']:.4f} W")
