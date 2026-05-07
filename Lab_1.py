@@ -34,7 +34,8 @@ def add_labsheet_data(data):
             data[fin]["P"] = 2 * (data[fin]["W"] + data[fin]["H"])
             data[fin]["locs"] = 1e-2*np.array([3.06, 5.50, 9.82, 17.15, 22.07, 28.07])
             data[fin]["volts"] = 40
-            data[fin]["T_b"] = 68
+            #data[fin]["T_b"] = 68
+            data[fin]["T_b"] = data[fin]["T0"]
             data[fin]["current"] = 0.216
             data[fin]["power"] = data[fin]["volts"] * data[fin]["current"]
         elif fin == "copperround":
@@ -45,7 +46,8 @@ def add_labsheet_data(data):
             data[fin]["P"] = np.pi * data[fin]["D"]
             data[fin]["locs"] = 1e-2*np.array([3.09, 5.56, 9.80, 17.15]) # copper round has only 4 measurement points
             data[fin]["volts"] = 40
-            data[fin]["T_b"] = 81
+            #data[fin]["T_b"] = 81
+            data[fin]["T_b"] = data[fin]["T0"]
             data[fin]["current"] = 0.218
             data[fin]["power"] = data[fin]["volts"] * data[fin]["current"]
         elif fin == "steelround":
@@ -56,7 +58,8 @@ def add_labsheet_data(data):
             data[fin]["P"] = np.pi * data[fin]["D"]
             data[fin]["locs"] = 1e-2*np.array([3.10, 5.44, 9.81, 17.22, 22.07, 28.45])
             data[fin]["volts"] = 35
-            data[fin]["T_b"] = 87
+            #data[fin]["T_b"] = 87
+            data[fin]["T_b"] = data[fin]["T0"]
             data[fin]["current"] = 0.182
             data[fin]["power"] = data[fin]["volts"] * data[fin]["current"]
         elif fin == "aluminum":
@@ -67,7 +70,8 @@ def add_labsheet_data(data):
             data[fin]["P"] = np.pi * data[fin]["D"]
             data[fin]["locs"] = 1e-2*np.array([4.35, 5.41, 9.72, 17.15, 22.07, 28.07])
             data[fin]["volts"] = 45
-            data[fin]["T_b"] = 91
+            #data[fin]["T_b"] = 91
+            data[fin]["T_b"] = data[fin]["T0"]
             data[fin]["current"] = 0.247
             data[fin]["power"] = data[fin]["volts"] * data[fin]["current"]
     return data
@@ -205,7 +209,7 @@ for fin in data:
     data[fin]["h"] = h
     print(f"Best h for {fin}: {h}")
 
-#plot_all_data(data)
+plot_all_data(data)
 
 for fin in data:
     fin_data = data[fin]
