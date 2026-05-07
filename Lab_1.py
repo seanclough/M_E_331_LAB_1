@@ -97,7 +97,10 @@ def plot_all_data(data):
 
         ax[i//2, i%2].set_xlabel('Location (cm)')
         ax[i//2, i%2].set_ylabel('Temperature (°C)')
-        ax[i//2, i%2].set_title(f'{fin} - Temperature Distribution')
+        if "h" in fin_data:
+            ax[i//2, i%2].set_title(f'{fin} - Temperature Distribution (h={h:.3f} W/m²K, S_min={fin_data["S_min"]:.6f})')
+        else:
+            ax[i//2, i%2].set_title(f'{fin} - Temperature Distribution')
         ax[i//2, i%2].grid(True)
         ax[i//2, i%2].set_xlim(fin_data["locs"].min()*1e2 - 1, fin_data["locs"].max()*1e2 + 1)
         ax[i//2, i%2].set_ylim(fin_data["readings"].min() - 5, fin_data["readings"].max() + 5)
@@ -177,7 +180,7 @@ def find_h(data, fin):
             d = lower + inv_phi * (upper - lower)
             fd = objective(d)
 
-    return float((lower + upper) / 2)
+    return float((lower + upper) / 2), objective((lower + upper) / 2)
 
 def equation_2(fin_data):
     h = fin_data["h"]
@@ -205,9 +208,10 @@ thermocouple_depth = 0.64e-2
 #plot_all_data(data)
 
 for fin in data:
-    h = find_h(data, fin)
+    h, error = find_h(data, fin)
     data[fin]["h"] = h
-    print(f"Best h for {fin}: {h}")
+    data[fin]["S_min"] = error
+    print(f"Best h for {fin}: {h} W/m^2K with error {error:.6f}")
 
 plot_all_data(data)
 
